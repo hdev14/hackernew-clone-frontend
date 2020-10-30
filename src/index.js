@@ -1,12 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/index.css';
+import {
+  ApolloProvider, ApolloClient, InMemoryCache, createHttpLink,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
+import './styles/index.css';
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:4000',
+});
+
+const authLink = setContext((_, { headers }) => ({
+  headers: {
+    ...headers,
+    authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTYwNDA2NzE4M30.La2KoVsn0h5jFNefM-ugav5nCMDJF1ENwP3E9CY4dVE',
+  },
+}));
+
+const apolloClient = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ApolloProvider client={apolloClient}>
+      <App />
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
