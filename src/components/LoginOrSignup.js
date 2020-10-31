@@ -1,24 +1,9 @@
 import { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
 import { AUTH_TOKEN } from '../constants';
-
-const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $passowrd: String!) {
-    login(email: $email, password: $password) {
-      token
-    }
-  }
-`;
-
-const SIGNUP_MUTATION = gql`
-  mutation SignupMutation($name: String!, $email: String!, $password: String!) {
-    signup(name: $name, email: $email, password: $password) {
-      token
-    }
-  }
-`;
+import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../graphql/mutations';
 
 const LoginOrSignup = () => {
   const history = useHistory();

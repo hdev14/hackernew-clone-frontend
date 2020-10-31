@@ -1,27 +1,9 @@
 import PropTypes from 'prop-types';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+
 import { AUTH_TOKEN } from '../constants';
 import { timeDifferenceForDate } from '../utils';
-
-const VOTE_MUTATION = gql`
-  mutation VoteMutation($linkId: ID!) {
-    vote(linkId: $linkId) {
-      id
-      link {
-        id
-        votes {
-          id
-          user {
-            id
-          }
-        }
-      }
-      user {
-        id
-      }
-    }
-  }
-`;
+import { VOTE_MUTATION } from '../graphql/mutations';
 
 const Link = ({ index, link }) => {
   const authToken = localStorage.getItem(AUTH_TOKEN);
