@@ -2,20 +2,7 @@ import { gql, useQuery } from '@apollo/client';
 
 import MyLink from './Link';
 
-// const linnksToRender = [
-//   {
-//     id: 1,
-//     description: 'Prisma turns your database into a GraphQL API 😎',
-//     url: 'https://www.prismagraphql.com',
-//   },
-//   {
-//     id: 2,
-//     description: 'The best GraphQL client',
-//     url: 'https://www.apollographql.com/docs/react/',
-//   },
-// ];
-
-const FEED_QUERY = gql`
+export const FEED_QUERY = gql`
   {
     feed {
       links {
@@ -38,7 +25,7 @@ const FEED_QUERY = gql`
   }
 `;
 
-const LinkLinst = () => {
+const LinkList = () => {
   const { loading, error, data } = useQuery(FEED_QUERY);
 
   if (loading) return <h1>loading...</h1>;
@@ -46,9 +33,15 @@ const LinkLinst = () => {
 
   return (
     <div>
-      {data.feed.links.map((l, index) => <MyLink key={l.id} link={l} index={index} />)}
+      {data.feed.links.map((l, index) => (
+        <MyLink
+          key={l.id}
+          link={l}
+          index={index}
+        />
+      ))}
     </div>
   );
 };
 
-export default LinkLinst;
+export default LinkList;

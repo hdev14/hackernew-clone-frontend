@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
+import { FEED_QUERY } from './LinkList';
+
 const POST_MUTATION = gql`
   mutation PostMutation($description: String!, $url: String!) {
     post(description: $description, url: $url) {
@@ -9,6 +11,16 @@ const POST_MUTATION = gql`
       createdAt
       url
       description
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
     }
   }
 `;
@@ -20,6 +32,17 @@ const CreateLink = () => {
   const [post] = useMutation(POST_MUTATION, {
     onCompleted: () => history.push('/'),
     onError: (e) => console.error(e),
+    update: (store, { data }) => {
+      const queryData = store.readQuery({ query: FEED_QUERY });
+      store.writeQuery({
+        query: FEED_QUERY,
+        data: {
+          feed: {
+            links: [...queryData.feed.links, data.post],
+          },
+        },
+      });
+    },
   });
 
   const onSubmit = () => {
