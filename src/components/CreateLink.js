@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 
 const POST_MUTATION = gql`
   mutation PostMutation($description: String!, $url: String!) {
@@ -13,9 +14,13 @@ const POST_MUTATION = gql`
 `;
 
 const CreateLink = () => {
+  const history = useHistory();
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
-  const [post, { data }] = useMutation(POST_MUTATION);
+  const [post] = useMutation(POST_MUTATION, {
+    onCompleted: () => history.push('/'),
+    onError: (e) => console.error(e),
+  });
 
   const onSubmit = () => {
     if (description && url) {
@@ -24,13 +29,11 @@ const CreateLink = () => {
           description,
           url,
         },
-      }).catch((e) => console.error(e));
+      });
       setDescription('');
       setUrl('');
     }
   };
-
-  if (data) return <div>{data}</div>;
 
   return (
     <div>
