@@ -41,10 +41,10 @@ Search.propTypes = {
   }).isRequired,
 };
 
-const WithApolloClient = (Component) => () => (
+const withApolloClient = (Component) => () => (
   <ApolloConsumer>
     {(client) => <Component client={client} />}
   </ApolloConsumer>
 );
 
-export default WithApolloClient(Search);
+export default withApolloClient(Search);
