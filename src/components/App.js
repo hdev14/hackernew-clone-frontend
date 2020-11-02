@@ -1,4 +1,4 @@
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Header from './Header';
 import LinkList from './LinkList';
@@ -11,10 +11,12 @@ const App = () => (
     <Header />
     <div className="ph3 pv1 background-gray">
       <Switch>
-        <Route exact path="/" component={LinkList} />
+        <Route exact path="/" render={() => <Redirect to="/new/1" />} />
         <Route path="/create" component={CreateLink} />
         <Route path="/login-or-signup" component={LoginOrSignup} />
         <Route path="/search" component={Search} />
+        <Route path="/top" component={LinkList} />
+        <Route path="/new/:page" component={LinkList} />
       </Switch>
     </div>
   </div>
