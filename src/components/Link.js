@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useMutation } from '@apollo/client';
 
@@ -10,6 +11,8 @@ const Link = ({ index, link }) => {
   const [vote] = useMutation(VOTE_MUTATION, {
     onError: (e) => console.error(e),
   });
+
+  const timeDifferenceForDateCb = useCallback((date) => timeDifferenceForDate(date), []);
 
   return (
     <div className="flex mt2 items-start">
@@ -44,7 +47,7 @@ const Link = ({ index, link }) => {
           {' '}
           {link.postedBy ? link.postedBy.name : 'Unknown'}
           {' '}
-          {timeDifferenceForDate(link.createdAt)}
+          {timeDifferenceForDateCb(link.createdAt)}
         </div>
       </div>
     </div>

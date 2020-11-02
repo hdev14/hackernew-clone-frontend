@@ -41,6 +41,6 @@ const timeDifference = (current, previous) => {
 
 export const timeDifferenceForDate = (date) => {
   const current = new Date().getTime();
-  const previous = new Date(date).getTime();
+  const previous = new Date(Number(date)).getTime();
   return timeDifference(current, previous);
 };
