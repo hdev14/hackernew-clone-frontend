@@ -12,6 +12,7 @@ const LoginOrSignup = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const saveToken = (token) => {
     localStorage.setItem(AUTH_TOKEN, token);
@@ -25,6 +26,9 @@ const LoginOrSignup = () => {
 
   const [login] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => confirm(data),
+    onError: (err) => {
+      setError(err.message);
+    },
   });
 
   const [signup] = useMutation(SIGNUP_MUTATION, {
@@ -99,6 +103,10 @@ const LoginOrSignup = () => {
           {isLogin ? 'need to create an account?' : 'already have an account'}
         </div>
       </div>
+
+      {error && (
+        <span className="red">{error}</span>
+      )}
     </div>
   );
 };
