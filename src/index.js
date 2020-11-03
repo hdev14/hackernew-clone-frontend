@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-
 import { ApolloProvider } from '@apollo/client';
+
 import apolloClient from './graphql/client';
 
-import App from './components/App';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './styles/index.css';
 
