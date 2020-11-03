@@ -8,9 +8,7 @@ import { VOTE_MUTATION } from '../graphql/mutations';
 
 const Link = ({ index, link }) => {
   const authToken = localStorage.getItem(AUTH_TOKEN);
-  const [vote] = useMutation(VOTE_MUTATION, {
-    onError: (e) => console.error(e),
-  });
+  const [vote] = useMutation(VOTE_MUTATION);
 
   const timeDifferenceForDateCb = useCallback((date) => timeDifferenceForDate(date), []);
 

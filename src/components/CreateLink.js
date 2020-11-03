@@ -11,7 +11,6 @@ const CreateLink = () => {
   const [url, setUrl] = useState('');
   const [post] = useMutation(POST_MUTATION, {
     onCompleted: () => history.push('/'),
-    onError: (e) => console.error(e),
     update: (store, { data }) => {
       const queryData = store.readQuery({ query: FEED_QUERY });
       store.writeQuery({

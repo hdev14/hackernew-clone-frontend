@@ -24,12 +24,10 @@ const LoginOrSignup = () => {
 
   const [login] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data) => confirm(data),
-    onError: (e) => console.error(e),
   });
 
   const [signup] = useMutation(SIGNUP_MUTATION, {
     onCompleted: (data) => confirm(data),
-    onError: (e) => console.error(e),
   });
 
   const onSubmit = () => {
