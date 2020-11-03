@@ -50,10 +50,8 @@ const apolloClient = new ApolloClient({
       Query: {
         fields: {
           feed: {
-            read: (existing) => {
-              if (!existing) {
-                return;
-              }
+            read(existing) {
+              if (!existing) return;
 
               return existing;
             },
@@ -61,6 +59,7 @@ const apolloClient = new ApolloClient({
         },
       },
     },
+    dataIdFromObject: (o) => o.id,
   }),
 });
 
