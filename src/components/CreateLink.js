@@ -7,8 +7,10 @@ import { POST_MUTATION } from '../graphql/mutations';
 
 const CreateLink = () => {
   const history = useHistory();
+
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
+
   const [post] = useMutation(POST_MUTATION, {
     onCompleted: () => history.push('/'),
     update: (store, { data }) => {
@@ -26,12 +28,7 @@ const CreateLink = () => {
 
   const onSubmit = () => {
     if (description && url) {
-      post({
-        variables: {
-          description,
-          url,
-        },
-      });
+      post({ variables: { description, url } });
       setDescription('');
       setUrl('');
     }

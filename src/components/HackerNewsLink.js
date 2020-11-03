@@ -6,7 +6,7 @@ import { AUTH_TOKEN } from '../constants';
 import { timeDifferenceForDate } from '../utils';
 import { VOTE_MUTATION } from '../graphql/mutations';
 
-const Link = ({ index, link }) => {
+const HackerNewsLink = ({ index, link }) => {
   const authToken = localStorage.getItem(AUTH_TOKEN);
   const [vote] = useMutation(VOTE_MUTATION);
 
@@ -52,7 +52,7 @@ const Link = ({ index, link }) => {
   );
 };
 
-Link.propTypes = {
+HackerNewsLink.propTypes = {
   index: PropTypes.number.isRequired,
   link: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -66,4 +66,4 @@ Link.propTypes = {
   }).isRequired,
 };
 
-export default Link;
+export default HackerNewsLink;

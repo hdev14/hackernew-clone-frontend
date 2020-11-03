@@ -7,18 +7,19 @@ import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../graphql/mutations';
 
 const LoginOrSignup = () => {
   const history = useHistory();
+
   const [isLogin, setIsLogin] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const saveUserData = (token) => {
+  const saveToken = (token) => {
     localStorage.setItem(AUTH_TOKEN, token);
   };
 
   const confirm = (data) => {
     const { token } = isLogin ? data.login : data.signup;
-    saveUserData(token);
+    saveToken(token);
     history.push('/');
   };
 
@@ -48,6 +49,7 @@ const LoginOrSignup = () => {
   return (
     <div>
       <h4 className="mv3">{isLogin ? 'Login' : 'Sign Up'}</h4>
+
       <div className="flex flex-column">
         {!isLogin && (
           <input
@@ -86,6 +88,7 @@ const LoginOrSignup = () => {
         >
           {isLogin ? 'login' : 'create account'}
         </div>
+
         <div
           className="pointer button"
           role="button"

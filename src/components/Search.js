@@ -2,7 +2,7 @@ import { ApolloConsumer } from '@apollo/client';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import MyLink from './Link';
+import HackLink from './HackerNewsLink';
 import { FEED_SEARCH_QUERY } from '../graphql/queries';
 
 const Search = ({ client }) => {
@@ -29,7 +29,7 @@ const Search = ({ client }) => {
       </div>
 
       {links.map((l, index) => (
-        <MyLink key={l.id} link={l} index={index} />
+        <HackLink key={l.id} link={l} index={index} />
       ))}
     </div>
   );

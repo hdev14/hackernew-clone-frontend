@@ -2,10 +2,10 @@ import { useMemo, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 
-import MyLink from './Link';
 import { FEED_QUERY } from '../graphql/queries';
 import { NEW_LINKS_SUBSCRIPTION, NEW_VOTES_SUBSCRIPTION } from '../graphql/subscriptions';
 import { LINKS_PER_PAGE } from '../constants';
+import HackerNewsLink from './HackerNewsLink';
 
 const LinkList = () => {
   const history = useHistory();
@@ -16,12 +16,8 @@ const LinkList = () => {
   const pageIndex = useMemo(() => (parseInt(page, 10) - 1) * LINKS_PER_PAGE, [page]);
 
   const getQueryVariables = () => {
-    const skip = isNewPage
-      ? pageIndex
-      : 0;
-
+    const skip = isNewPage ? pageIndex : 0;
     const take = isNewPage ? LINKS_PER_PAGE : 100;
-
     const orderBy = isNewPage ? { createdAt: 'desc' } : {};
 
     return { skip, take, orderBy };
@@ -34,9 +30,7 @@ const LinkList = () => {
   });
 
   const getLinksToRender = (queryData) => {
-    if (isNewPage) {
-      return queryData.feed.links;
-    }
+    if (isNewPage) return queryData.feed.links;
 
     const rankedLinks = queryData.feed.links.slice()
       .sort((l1, l2) => l2.votes.length - l1.votes.length);
@@ -46,7 +40,8 @@ const LinkList = () => {
 
   const nextPage = useCallback((queryData) => {
     const currentPage = parseInt(page, 10);
-    if (currentPage <= queryData.feed.count / LINKS_PER_PAGE) {
+
+    if (currentPage <= (queryData.feed.count / LINKS_PER_PAGE)) {
       const next = currentPage + 1;
       history.push(`/new/${next}`);
     }
@@ -67,8 +62,8 @@ const LinkList = () => {
         if (!subscriptionData.data) return prev;
 
         const { newLink } = subscriptionData.data;
-        const exists = prev.feed.links.find((l) => l.id === newLink.id);
-        if (exists) return prev;
+        const linkExists = prev.feed.links.find((l) => l.id === newLink.id);
+        if (linkExists) return prev;
 
         return {
           ...prev,
@@ -85,12 +80,10 @@ const LinkList = () => {
   };
 
   const subscribeToNewVotes = () => {
-    subscribeToMore({
-      document: NEW_VOTES_SUBSCRIPTION,
-    });
+    subscribeToMore({ document: NEW_VOTES_SUBSCRIPTION });
   };
 
-  if (loading) return <h1>loading...</h1>;
+  if (loading) return <h3>loading...</h3>;
   if (error) return <span>{error}</span>;
 
   subscribeToNewLinks();
@@ -101,12 +94,13 @@ const LinkList = () => {
   return (
     <div>
       {linksToRender.map((l, index) => (
-        <MyLink
+        <HackerNewsLink
           key={l.id}
           link={l}
           index={index + (page ? pageIndex : 0)}
         />
       ))}
+
       {isNewPage && (
         <div className="flex ml4 mv3 gray">
           <div
@@ -118,6 +112,7 @@ const LinkList = () => {
           >
             Previous
           </div>
+
           <div
             className="pointer"
             role="button"
