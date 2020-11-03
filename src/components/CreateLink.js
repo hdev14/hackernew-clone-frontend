@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 
-import { FEED_QUERY } from '../graphql/queries';
+// import { FEED_QUERY } from '../graphql/queries';
 import { POST_MUTATION } from '../graphql/mutations';
 
 const CreateLink = () => {
@@ -13,17 +13,6 @@ const CreateLink = () => {
 
   const [post] = useMutation(POST_MUTATION, {
     onCompleted: () => history.push('/'),
-    update: (store, { data }) => {
-      const queryData = store.readQuery({ query: FEED_QUERY });
-      store.writeQuery({
-        query: FEED_QUERY,
-        data: {
-          feed: {
-            links: [...queryData.feed.links, data.post],
-          },
-        },
-      });
-    },
   });
 
   const onSubmit = () => {

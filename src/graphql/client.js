@@ -46,7 +46,21 @@ const splitLink = split(
 const apolloClient = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache({
-    dataIdFromObject: (o) => o.id,
+    typePolicies: {
+      Query: {
+        fields: {
+          feed: {
+            read: (existing) => {
+              if (!existing) {
+                return;
+              }
+
+              return existing;
+            },
+          },
+        },
+      },
+    },
   }),
 });
 
